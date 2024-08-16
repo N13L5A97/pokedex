@@ -13,7 +13,7 @@ export default function Header() {
 	}, [search]);
 
 	return (
-		<div className="p-24 pb-10 flex gap-4">
+		<div className="p-24 pb-10 flex flex-col gap-4 items-center">
 			<Image src="/pokeball.png" alt="Pokéball" width={50} height={50} />
 			<h1 className="text-4xl font-bold text-white">Pokedex</h1>
 		</div>
