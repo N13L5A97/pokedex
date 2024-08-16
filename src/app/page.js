@@ -1,11 +1,20 @@
+"use client"
 import Image from "next/image";
-import Pokemon from "./components/pokemon";
+import Pokemon from "../components/Pokemon";
+import { useEffect, useState } from "react";
 
 
 export default async function Home() {
-  const data = await fetch('https://pokeapi.co/api/v2/pokemon').then((res) =>
-    res.json()
-  )
+
+  const initialData = await getInitialPokemon();
+ 
+  const [data, setData] = useState(initialData);
+
+  const fetchPokemon = async (url) => {
+    const res = await fetch(url);
+    const nextData = await res.json();
+    setData(nextData);
+  }
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
@@ -34,6 +43,28 @@ export default async function Home() {
           <Pokemon key={index} pokemon={pokemon} index={index} />
         ))}
       </div>
+      <div className="w-full flex justify-center gap-4 mt-10">
+        <button 
+          className="p-2 px-4 rounded-md bg-sky-500"
+          onClick={() => fetchPokemon(data.previous)}
+          >
+          Prev
+        </button>
+        <button 
+          className="p-2 px-4 rounded-md bg-sky-500"
+          onClick={() => fetchPokemon(data.next)}
+        >
+          Next
+        </button>
+      </div>
     </main>
   );
+}
+
+
+export async function getInitialPokemon() {
+  const res = await fetch('https://pokeapi.co/api/v2/pokemon');
+  const initialData = await res.json();
+
+  return initialData;
 }
