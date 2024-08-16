@@ -1,5 +1,3 @@
-// import Image from "next/image";
-
 export default async function Page({ params }) {
     const pokeData = await fetchDetails(params.name);
     console.log(pokeData.evolution_chain); 
