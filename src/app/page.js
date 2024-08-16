@@ -1,19 +1,24 @@
-"use client"
+"use client";
 import Image from "next/image";
 import Pokemon from "../components/Pokemon";
 import { useEffect, useState } from "react";
 
+export default function Home() {
+  const [data, setData] = useState(null);
+  const [currentUrl, setCurrentUrl] = useState('https://pokeapi.co/api/v2/pokemon');
 
-export default async function Home() {
+  useEffect(() => {
+    const fetchPokemon = async () => {
+      const res = await fetch(currentUrl);
+      const nextData = await res.json();
+      setData(nextData);
+    };
 
-  const initialData = await getInitialPokemon();
- 
-  const [data, setData] = useState(initialData);
+    fetchPokemon();
+  }, [currentUrl]);
 
-  const fetchPokemon = async (url) => {
-    const res = await fetch(url);
-    const nextData = await res.json();
-    setData(nextData);
+  if (!data) {
+    return <div>Loading...</div>;
   }
 
   return (
@@ -46,25 +51,19 @@ export default async function Home() {
       <div className="w-full flex justify-center gap-4 mt-10">
         <button 
           className="p-2 px-4 rounded-md bg-sky-500"
-          onClick={() => fetchPokemon(data.previous)}
+          onClick={() => data.previous && setCurrentUrl(data.previous)}
+          disabled={!data.previous}
           >
           Prev
         </button>
         <button 
           className="p-2 px-4 rounded-md bg-sky-500"
-          onClick={() => fetchPokemon(data.next)}
+          onClick={() => data.next && setCurrentUrl(data.next)}
+          disabled={!data.next}
         >
           Next
         </button>
       </div>
     </main>
   );
-}
-
-
-export async function getInitialPokemon() {
-  const res = await fetch('https://pokeapi.co/api/v2/pokemon');
-  const initialData = await res.json();
-
-  return initialData;
 }
