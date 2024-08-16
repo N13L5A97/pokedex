@@ -1,24 +1,21 @@
+"use client";
+
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import Image from "next/image";
+
 export default function Header() {
+	const [search, setSearch] = useState("");
+	const router = useRouter();
+
+	useEffect(() => {
+		router.push(`/?search=${search}`);
+	}, [search]);
+
 	return (
-		<div className="p-10">
-			<h1 className="text-4xl font-bold mb-10 text-white">Pokedex</h1>
-			{/* search option */}
-			<input
-				type="text"
-				placeholder="Search for a Pokemon"
-				className="w-full p-2 rounded-lg mb-10"
-			/>
-			{/* filter option */}
-			{/* <div className="mb-10 flex">
-        <label>
-          Fire
-          <input type="checkbox" name="filter" value="fire" />
-        </label>
-        <label>
-          Water
-          <input type="checkbox" name="filter" value="water" />
-        </label>
-      </div> */}
+		<div className="p-24 pb-10 flex gap-4">
+			<Image src="/pokeball.png" alt="Pokéball" width={50} height={50} />
+			<h1 className="text-4xl font-bold text-white">Pokedex</h1>
 		</div>
 	);
 }
