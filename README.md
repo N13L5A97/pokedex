@@ -178,7 +178,7 @@ Als laatst is het handig om de index te weten van alle Pokemons. Hiermee kan de 
   const currentPokemon = filteredPokemon.slice(indexOfFirstPokemon, indexOfLastPokemon);
 ```
 
-Wanneer alle data is verzameld kunnen we de pagina opbouwen. Omdat ik alle onderdelen onder elkaar wil hebben zet in de main op display flex column met de items gecentreerd in het midden. In de main zet ik alle componenten die ik heb gebouwd onder elkaar. De data die ik nodig heb voor deze componenten stuur ik mee. Onder de componenten zet ik een loasin state omdat het best lang kan duren voor alle Pokemon geladen zijn. wanneer dit klaar is met laden worden alle Pokemon laten zien in een grid. Op klein scherm heeft dit grid 1 column, op gemiddeld scherm 4 en op groot scherm 5. Dit heb ik zo gedaan omdat je 20 makkelijk door 4 en 5 kan delen en dus mooi uitkomt op de pagina. 
+Wanneer alle data is verzameld kunnen we de pagina opbouwen. Omdat ik alle onderdelen onder elkaar wil hebben zet in de main op display flex column met de items gecentreerd in het midden. In de main zet ik alle componenten die ik heb gebouwd onder elkaar. De data die ik nodig heb voor deze componenten stuur ik mee. Onder de componenten zet ik een loasin state omdat het best lang kan duren voor alle Pokemon geladen zijn. wanneer dit klaar is met laden worden alle Pokemon laten zien in een grid. Op klein scherm heeft dit grid 1 column, op gemiddeld scherm 4 en op groot scherm 5. Dit heb ik zo gedaan omdat je 20 makkelijk door 4 en 5 kan delen en dus mooi uitkomt op de pagina.
 
 ```js
   return (
@@ -527,7 +527,11 @@ Ik denk dat dit een hele goede opdracht is geweest om kennis te maken met Next.j
 - https://tailwindcss.com/docs/installation
 - https://pokeapi.co/docs/v2
 - https://www.youtube.com/watch?v=NSRbWHSmEn4
-- https://www.youtube.com/watch?v=TlP5WIxVirU&t=600s
+- https://www.youtube.com/watch?v=TlP5WIxVirU
+- https://www.youtube.com/watch?v=pg-4eHwaoJM
+- https://www.youtube.com/watch?v=-4XpG5_Lj_o
+- https://nextjs.org/docs/pages/building-your-application/data-fetching/client-side
+- https://www.youtube.com/watch?v=QoMHwks6hUA
 - https://www.freecodecamp.org/news/three-dots-operator-in-javascript/
 - https://www.linkedin.com/pulse/understanding-promiseall-javascript-guide-examples-laurence-svekis--gscwf/
 - https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/some
@@ -539,6 +543,5 @@ Ik denk dat dit een hele goede opdracht is geweest om kennis te maken met Next.j
 - https://nextjs.org/docs/app/api-reference/components/link
 - https://stackoverflow.com/questions/67881424/why-should-i-use-next-image
 - https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/pop
-- 
+- https://mikebifulco.com/posts/javascript-filter-boolean
 - https://tailwindcss.com/docs/hover-focus-and-other-states#checked
-- 
