@@ -7,28 +7,32 @@ export default function Home() {
   const [allPokemon, setAllPokemon] = useState([]);
   const [filteredPokemon, setFilteredPokemon] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [sortOption, setSortOption] = useState('index-asc'); // Default sort by name ascending
+  const [sortOption, setSortOption] = useState('index-asc'); // Default sort by index ascending
   const [selectedTypes, setSelectedTypes] = useState([]);
   const pokemonPerPage = 20;
 
   const fetchAllPokemon = async () => {
-    const res = await fetch('https://pokeapi.co/api/v2/pokemon?limit=1000');
-    const data = await res.json();
+    try {
+      const res = await fetch('https://pokeapi.co/api/v2/pokemon?limit=999');
+      const data = await res.json();
 
-    const detailedData = await Promise.all(
-      data.results.map(async (pokemon) => {
-        const details = await fetch(pokemon.url).then((res) => res.json());
-        const pokeIndex = details.id; // Assuming `id` as the Pokémon index
-        return { 
-          ...pokemon,
-          index: pokeIndex,
-          types: details.types.map((typeInfo) => typeInfo.type.name) 
-        };
-      })
-    );
+      const detailedData = await Promise.all(
+        data.results.map(async (pokemon) => {
+          const details = await fetch(pokemon.url).then((res) => res.json());
+          const pokeIndex = details.id;
+          return { 
+            ...pokemon,
+            index: pokeIndex,
+            types: details.types.map((typeInfo) => typeInfo.type.name) 
+          };
+        })
+      );
 
-    setAllPokemon(detailedData);
-    setFilteredPokemon(detailedData);
+      setAllPokemon(detailedData);
+      setFilteredPokemon(detailedData);
+    } catch (error) {
+      console.error('Failed to fetch Pokémon:', error);
+    }
   };
 
   useEffect(() => {
@@ -36,7 +40,7 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
-    // Apply filters and sorting
+    // Apply filtering
     let filtered = allPokemon;
 
     if (selectedTypes.length > 0) {
@@ -75,6 +79,10 @@ export default function Home() {
     setSelectedTypes(types);
   };
 
+  const handleSortChange = (option) => {
+    setSortOption(option);
+  };
+
   // Get current Pokémon based on pagination
   const indexOfLastPokemon = currentPage * pokemonPerPage;
   const indexOfFirstPokemon = indexOfLastPokemon - pokemonPerPage;
@@ -82,11 +90,16 @@ export default function Home() {
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24 pt-0">
-      <Header onSearch={handleSearch} onFilter={handleFilter} />
+      <Header 
+        onSearch={handleSearch} 
+        onFilter={handleFilter} 
+        sortOption={sortOption}
+        setSortOption={handleSortChange}
+      />
       <div className="flex gap-4 mb-10">
         <select
           value={sortOption}
-          onChange={(e) => setSortOption(e.target.value)}
+          onChange={(e) => handleSortChange(e.target.value)}
           className="p-2 rounded-md"
         >
           <option value="index-asc">Sort by Index (asc)</option>
@@ -108,7 +121,6 @@ export default function Home() {
         >
           Prev
         </button>
-        {/* show page numbers */}
         <div className="flex gap-2 items-center">
           <p className="text-white">{currentPage}</p>
           <p className="text-white">/</p>
