@@ -198,8 +198,6 @@ export default function Header({ onSearch, onFilter }) {
 					/>{" "}
 					Fairy
 				</label>
-
-                {/* Add more checkboxes for other types as needed */}
             </div>
         </div>
     );

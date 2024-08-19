@@ -7,32 +7,28 @@ export default function Home() {
   const [allPokemon, setAllPokemon] = useState([]);
   const [filteredPokemon, setFilteredPokemon] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [sortOption, setSortOption] = useState('index-asc'); // Default sort by index ascending
+  const [sortOption, setSortOption] = useState('index-asc'); // Default sort by name ascending
   const [selectedTypes, setSelectedTypes] = useState([]);
   const pokemonPerPage = 20;
 
-  // Fetch and process Pokémon data
   const fetchAllPokemon = async () => {
-    try {
-      const res = await fetch('https://pokeapi.co/api/v2/pokemon?limit=1000');
-      const data = await res.json();
+    const res = await fetch('https://pokeapi.co/api/v2/pokemon?limit=1000');
+    const data = await res.json();
 
-      const detailedData = await Promise.all(
-        data.results.map(async (pokemon) => {
-          const details = await fetch(pokemon.url).then((res) => res.json());
-          return { 
-            ...pokemon,
-            index: details.id, // Pokémon index
-            types: details.types.map((typeInfo) => typeInfo.type.name) 
-          };
-        })
-      );
+    const detailedData = await Promise.all(
+      data.results.map(async (pokemon) => {
+        const details = await fetch(pokemon.url).then((res) => res.json());
+        const pokeIndex = details.id; // Assuming `id` as the Pokémon index
+        return { 
+          ...pokemon,
+          index: pokeIndex,
+          types: details.types.map((typeInfo) => typeInfo.type.name) 
+        };
+      })
+    );
 
-      setAllPokemon(detailedData);
-      setFilteredPokemon(detailedData);
-    } catch (error) {
-      console.error('Failed to fetch Pokémon:', error);
-    }
+    setAllPokemon(detailedData);
+    setFilteredPokemon(detailedData);
   };
 
   useEffect(() => {
@@ -40,7 +36,7 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
-    // Apply filters
+    // Apply filters and sorting
     let filtered = allPokemon;
 
     if (selectedTypes.length > 0) {
@@ -50,7 +46,7 @@ export default function Home() {
     }
 
     // Apply sorting
-    const sortBy = (a, b) => {
+    filtered.sort((a, b) => {
       if (sortOption === 'name-asc') {
         return a.name.localeCompare(b.name);
       } else if (sortOption === 'name-desc') {
@@ -61,9 +57,7 @@ export default function Home() {
         return b.index - a.index;
       }
       return 0;
-    };
-
-    filtered.sort(sortBy);
+    });
 
     setFilteredPokemon(filtered);
     setCurrentPage(1); // Reset to first page on filter or sort change
@@ -89,7 +83,7 @@ export default function Home() {
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24 pt-0">
       <Header onSearch={handleSearch} onFilter={handleFilter} />
-      <div className="flex gap-4 mb-4">
+      <div className="flex gap-4 mb-10">
         <select
           value={sortOption}
           onChange={(e) => setSortOption(e.target.value)}
