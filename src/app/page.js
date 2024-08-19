@@ -57,7 +57,7 @@ export default function Home() {
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24 pt-0">
       <Header onSearch={handleSearch} onFilter={handleFilter} />
-      <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4 w-full">
+      <div className="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-5 gap-4 w-full">
         {currentPokemon.map((pokemon, index) => (
           <Pokemon key={index} pokemon={pokemon} index={indexOfFirstPokemon + index} />
         ))}
@@ -70,6 +70,12 @@ export default function Home() {
           >
           Prev
         </button>
+        {/* show page numbers */}
+        <div className="flex gap-2 items-center">
+          <p className="text-white">{currentPage}</p>
+          <p className="text-white">/</p>
+          <p className="text-white">{Math.ceil(filteredPokemon.length / pokemonPerPage)}</p>
+        </div>
         <button 
           className="p-2 px-4 rounded-md bg-sky-500"
           onClick={() => setCurrentPage((prev) => (indexOfLastPokemon < filteredPokemon.length ? prev + 1 : prev))}
