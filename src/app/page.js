@@ -57,7 +57,7 @@ export default function Home() {
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24 pt-0">
       <Header onSearch={handleSearch} onFilter={handleFilter} />
-      <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4 w-full">
         {currentPokemon.map((pokemon, index) => (
           <Pokemon key={index} pokemon={pokemon} index={indexOfFirstPokemon + index} />
         ))}
