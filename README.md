@@ -333,35 +333,192 @@ export default function Search({ onSearch }) {
 
 ## Pokemon Component
 
+Het Pokemon component is een kaartje van één Pokemon die hergebruikt worden voor alle Pokemon in de Pokedex. Omdat het een linkje moet worden naar de detail pagina importeer ik link van next en voor de afbeelding van de Pokemon gebruik ik image van next. Ik importeer dit i.p.v. het gebruik van de a en img tag omdat dit efficiënter en sneller schijnt te zijn.
 
+Omdat ik de afbeeldingen van pokemon.com mooier vind gebruik ik de index van de pokemon om deze op te halen. De afbeeldingen zijn namelijk benoemnd naar heet index nummer via deze site, maar omdat de index hier uit de pokemon api niet altijd 3 getallen heeft moeten we dit aanpassen. Dit doen we door 3 nullen voor de index te zetten en hem dan te knippen vanaf het laatste getal. Dus "0001" wordt "001",m "00023" wordt "023" en "000245" wordt "245". Dit kan je dan vervolgens gebruiken in een fetch voor de afbeelding van de Pokemon.
+
+Ik heb in dit geval een limit tot 999 pokemon omdat hij anders de afbeelding niet kan vinden. Dit zou ik later oplossen met een if else statement. (If pokeIndex => 999 .slice(-4)). Iets in die richting. Voor nu laat ik de limit even op 999 staan om de site niet te zwaar te maken.
 
 ```js
 import Image from "next/image";
 import Link from "next/link";
 
 export default function Pokemon({ pokemon, index }) {
-    // Calculate the correct Pokédex number by considering the page offset
-    const pokeIndex = pokemon.url.split('/').filter(Boolean).pop();
-    const paddedIndex = ('000' + pokeIndex).slice(-3);
+    const pokeIndex = pokemon.index;
+    const stringIndex = ('000' + pokeIndex).slice(-3);
+
+    console.log(pokemon.index);
 
     return (
         <div key={index} className="bg-white p-4 rounded-lg flex-col justify-center items-center relative w-full">
             <Link href={`/pokemon/${pokemon.name}`}>
                 <Image
-                    src={`https://www.pokemon.com/static-assets/content-assets/cms2/img/pokedex/full/${paddedIndex}.png`}
+                    src={`https://www.pokemon.com/static-assets/content-assets/cms2/img/pokedex/full/${stringIndex}.png`}
                     alt={pokemon.name}
                     width={200}
                     height={200}
                     className="m-auto"
                 />
                 <h2 className="text-xl font-bold capitalize">{pokemon.name}</h2>
-                <span className="text-sm text-gray-500 absolute top-0 left-0 p-2">#{paddedIndex}</span>
+                <span className="text-sm text-gray-500 absolute top-0 left-0 p-2">#{stringIndex}</span>
             </Link>
         </div>
     );
 }
 
+
 ```
+
+## Detail Page
+
+Als laatste hebben we nog de detail pagina van de Pokemon. Hiervoor hebben we de specifieke data nodig van de geselecteerde pokemon. Ik heb er nu voor gekozen heel simpel een de naam, afbeelding en at stats te laten zien. Ook vond ik het leuk om te laten zien wat de evolution chain is van de pokemon en deze onder aan de pagina te tonen.
+
+```js
+export default async function Page({ params }) {
+    const pokeData = await fetchDetails(params.name);
+
+    return (
+        <div className="text-white flex flex-wrap gap-10 p-24">
+            <div className="w-full flex justify-between">
+                <div className="flex flex-col">
+                    <h1 className="text-4xl font-bold capitalize">{pokeData.name}</h1>
+                    <img src={pokeData.sprites.front_default} alt={pokeData.name} width={200} height={200} />
+                </div>
+                <div>
+                    <h2 className="text-xl">Base Experience: {pokeData.base_experience}</h2>
+                    <h2 className="text-xl">Height: {pokeData.height}</h2>
+                    <h2 className="text-xl">Weight: {pokeData.weight}</h2>
+                </div>
+            </div>
+            <div className="w-full flex justify-between">
+                <div>
+                    <h2 className="text-2xl">Abilities</h2>
+                    <ul>
+                        {pokeData.abilities.map((ability, index) => (
+                            <li key={index}>{ability.ability.name}</li>
+                        ))}
+                    </ul>
+                </div>
+                <div>
+                    <h2 className="text-2xl">Types</h2>
+                    <ul>
+                        {pokeData.types.map((type, index) => (
+                            <li key={index}>{type.type.name}</li>
+                        ))}
+                    </ul>
+                </div>
+                <div>
+                    <h2 className="text-2xl">Stats</h2>
+                    <ul>
+                        {pokeData.stats.map((stat, index) => (
+                            <li key={index}>{stat.stat.name}: {stat.base_stat}</li>
+                        ))}
+                    </ul>
+                </div>
+                <div>
+                    <h2 className="text-2xl">Moves</h2>
+                    <ul>
+                        {pokeData.moves.slice(0, 10).map((move, index) => (
+                            <li key={index}>{move.move.name}</li>
+                        ))}
+                    </ul>
+                </div>
+            </div>
+
+            <div className="w-full">
+                <h2 className="text-2xl">Evolution Chain</h2>
+                <div className="flex gap-4">
+                    {pokeData.evolution_chain.evolutions.map((evolution, index) => (
+                        <div key={index} className="text-center">
+                            <img src={evolution.image} alt={evolution.name} width={150} height={150} />
+                            <p className="capitalize">{evolution.name}</p>
+                        </div>
+                    ))}
+                </div>
+            </div>
+        </div>
+    );
+}
+```
+
+De meeste data kon ik gewoon tonen door de details van de pokemon te fetchen maar om bij de evolution chain te komen moest ik wat dieper gaan. Met wat hulp van onze vriend Chat kreeg ik alle pokemons die in de evolution chain zaten en heb ik deze onderaan de pagina toegevoegd.
+
+```js
+const fetchDetails = async (name) => {
+    try {
+        // Fetch Pokémon details
+        const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${name}`);
+        const pokemonData = await res.json();
+
+        // Fetch Pokémon species details to get the evolution chain URL
+        const speciesRes = await fetch(`https://pokeapi.co/api/v2/pokemon-species/${name}`);
+        if (!speciesRes.ok) {
+            throw new Error('Failed to fetch Pokémon species details');
+        }
+        const speciesData = await speciesRes.json();
+
+        // Fetch evolution chain data
+        const evolutionChainRes = await fetch(speciesData.evolution_chain.url);
+        if (!evolutionChainRes.ok) {
+            throw new Error('Failed to fetch evolution chain details');
+        }
+        const evolutionChainData = await evolutionChainRes.json();
+
+        // Function to fetch Pokémon details and images
+        const fetchPokemonImage = async (pokemonName) => {
+            const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonName}`);
+            if (!res.ok) {
+                throw new Error(`Failed to fetch details for ${pokemonName}`);
+            }
+            const data = await res.json();
+            return {
+                name: data.name,
+                image: data.sprites.front_default
+            };
+        };
+
+        // Fetch details for all Pokémon in the evolution chain
+        const fetchAllEvolutions = async (chain) => {
+            const evolutions = [];
+            let current = chain;
+
+            while (current) {
+                const pokemonImage = await fetchPokemonImage(current.species.name);
+                evolutions.push(pokemonImage);
+
+                if (current.evolves_to.length > 0) {
+                    current = current.evolves_to[0]; // Assuming linear evolution chain
+                } else {
+                    break;
+                }
+            }
+
+            return evolutions;
+        };
+
+        const evolutions = await fetchAllEvolutions(evolutionChainData.chain);
+
+        return {
+            ...pokemonData,
+            evolution_chain: {
+                ...evolutionChainData,
+                evolutions
+            }
+        };
+    } catch (error) {
+        console.error(error);
+        return null;
+    }
+}
+```
+
+## Reflectie
+
+Ik moet zeggen dat ik toch iets meer tijd dan 6 uur in dit project heb gestoken. Deels omdat ik naast de opdracht ook veel moest uitzoeken over Next.js en tailwind, maar ook omdat ik het zo graag wilde afmaken en niet zo snel opgeef. Zo stuitte ik op wat problemen i.v.m. client en serverside rendering en moest ik een aantal classes opzoeken. Gelukkig heeft het internet me goed weten te helpen.
+
+Ik zou graag nog het laden van de Pokemons willen optimaliseren, meer details willen toevoegen aan de Pokemon cards zoals base_xp en types en de detail pagina van de Pokemon willen stylen en uitbreiden. Verder zit er ook nog een foutje in de sorteer/filter functies. Namelijk dat je niet kan sorteren als er geen filter is geselecteerd. Ik heb geen idee waar dit aan licht.
+
+Ik denk dat dit een hele goede opdracht is geweest om kennis te maken met Next.js en Tailwind en ik heb er met plezier aan gewerkt. Ik moet wel zeggen dat ik het lastiger vond dan in eerste instantie ingeschat.
 
 ## Bronnen
 
@@ -375,3 +532,13 @@ export default function Pokemon({ pokemon, index }) {
 - https://www.linkedin.com/pulse/understanding-promiseall-javascript-guide-examples-laurence-svekis--gscwf/
 - https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/some
 - https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/slice
+- https://gist.github.com/johnnygizmo/531991a77047112b7ca89f78b840fba5
+- https://nextjs.org/docs/app/building-your-application/data-fetching/fetching
+- https://nextjs.org/docs/app/building-your-application/styling/tailwind-css
+- https://nextjs.org/docs/app/api-reference/components/image
+- https://nextjs.org/docs/app/api-reference/components/link
+- https://stackoverflow.com/questions/67881424/why-should-i-use-next-image
+- https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/pop
+- 
+- https://tailwindcss.com/docs/hover-focus-and-other-states#checked
+- 

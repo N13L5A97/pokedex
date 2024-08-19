@@ -1,6 +1,6 @@
 export default async function Page({ params }) {
     const pokeData = await fetchDetails(params.name);
-    console.log(pokeData.evolution_chain); 
+    console.log(pokeData); 
 
     return (
         <div className="text-white flex flex-wrap gap-10 p-24">
@@ -64,6 +64,7 @@ export default async function Page({ params }) {
         </div>
     );
 }
+
 
 const fetchDetails = async (name) => {
     try {
@@ -134,4 +135,3 @@ const fetchDetails = async (name) => {
         return null;
     }
 }
-

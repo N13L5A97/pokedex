@@ -22,7 +22,7 @@ export default function Home() {
       const res = await fetch('https://pokeapi.co/api/v2/pokemon?limit=999');
       const data = await res.json();
 
-      // console.log(data.results);
+      console.log(data);
 
       const detailedData = await Promise.all(
         data.results.map(async (pokemon) => {
