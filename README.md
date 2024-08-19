@@ -1,6 +1,6 @@
 # Pokédex
 
-Voor de Pokédex heb ik verschillende componenten gebruikt zodat deze (eventueel in de toekomst) hergebruikt kunnen worden. Zo heb ik componenten voor filters, een zoekbalk sorterings opties en de header en pokemon cards.
+Voor de Pokédex heb ik verschillende componenten gebruikt zodat deze (eventueel in de toekomst) hergebruikt kunnen worden. Zo heb ik componenten voor filters, een zoekbalk sorterings opties en de header en Pokémon cards.
 
 ## De Header
 
@@ -60,7 +60,7 @@ import Sorting from "../components/Sorting";
 ```
 
 Vervolgens maak ik variabelen aan om de oude states te vervangen en een default state aan te geven.
-Ik kan hier ook benoemen hoeveel pokemons ik per pagina wil laten zien. Deze zou ik eventueel dynamisch kunnen maken zodat de gebruiker zelf kan kiezen hoeveel Pokémons deze per pagina zou willen zien.
+Ik kan hier ook benoemen hoeveel Pokémons ik per pagina wil laten zien. Deze zou ik eventueel dynamisch kunnen maken zodat de gebruiker zelf kan kiezen hoeveel Pokémons deze per pagina zou willen zien.
 
 ```js
   const [allPokemon, setAllPokemon] = useState([]);
@@ -72,9 +72,9 @@ Ik kan hier ook benoemen hoeveel pokemons ik per pagina wil laten zien. Deze zou
   const pokemonPerPage = 20;
 ```
 
-Bij het renderen van de pagina moeten er een aantal dingen gebeuren. We moeten alle pokemons ophalen deze tonen op basis van wat de gebruiker wil zien. Hieronder definiëren we hoe we de pokemons ophalen. Dit doen we async zodat het tegelijkertijd gebeurd met alle andere opdrachten die er uitgevoerd moeten worden. Zo hoeft de pagina niet te wachten tot de ene taak is uitgevoerd en verder kan met de volgende.
+Bij het renderen van de pagina moeten er een aantal dingen gebeuren. We moeten alle Pokémons ophalen deze tonen op basis van wat de gebruiker wil zien. Hieronder definiëren we hoe we de Pokémons ophalen. Dit doen we async zodat het tegelijkertijd gebeurd met alle andere opdrachten die er uitgevoerd moeten worden. Zo hoeft de pagina niet te wachten tot de ene taak is uitgevoerd en verder kan met de volgende.
 
-Hier fetchen we alle pokemons (999) en stoppen deze in een json format. Vervolgens gebruiken we de urls van alle pokemons om de details op te halen die we nodig hebben voor het filteren op types en voor de detail pagina's. De pokemons, de index en de types stoppen we vervolgens in detailedData. Als dit niet lukt zal de console een error geven en als het klaar is zal de loading state stoppen.
+Hier fetchen we alle Pokémons (999) en stoppen deze in een json format. Vervolgens gebruiken we de urls van alle Pokémons om de details op te halen die we nodig hebben voor het filteren op types en voor de detail pagina's. De Pokémons, de index en de types stoppen we vervolgens in detailedData. Als dit niet lukt zal de console een error geven en als het klaar is zal de loading state stoppen.
 
 ```js
 export default function Home() {
@@ -111,9 +111,9 @@ export default function Home() {
   }, []);
 ```
 
-Hier onder kun je zien hoe de filters werken. In principe is de variabele "filtered" het zelfde als "allPokemon". Dit is de state wanneer er geen filter is geselecteerd. Als er meer dan 1 filter is geselecteerd zal de variabele niet meer "allPokemin" zijn, maar alle pokemons selecteren die het zelfde type hebben als een van de geselecteerde geselecteerde types.
+Hier onder kun je zien hoe de filters werken. In principe is de variabele "filtered" het zelfde als "allPokemon". Dit is de state wanneer er geen filter is geselecteerd. Als er meer dan 1 filter is geselecteerd zal de variabele niet meer "allPokemin" zijn, maar alle Pokémons selecteren die het zelfde type hebben als een van de geselecteerde geselecteerde types.
 
-In dezelfde functie sorteren we de pokemons meteen op naam of index. Dit kan omdat in eerste instantie de gefilterde pokemons hetzelfde zijn als alle Pokémons ongefilterd. We zetten de pagina index hier weer op 1 zodat de zoekresultaten vanaf het begin af aan worden weergeven.
+In dezelfde functie sorteren we de Pokémons meteen op naam of index. Dit kan omdat in eerste instantie de gefilterde Pokémons hetzelfde zijn als alle Pokémons ongefilterd. We zetten de pagina index hier weer op 1 zodat de zoekresultaten vanaf het begin af aan worden weergeven.
 
 ```js
   useEffect(() => {
@@ -145,7 +145,7 @@ In dezelfde functie sorteren we de pokemons meteen op naam of index. Dit kan omd
   }, [sortOption, selectedTypes, allPokemon]);
 ```
 
-Naast filteren en sorteren kunnen we ook zoeken. Wanneer er in de zoekbalk iets wordt ingetypt wordt er gekeken of een van de namen van de pokemon de ingetypte letters bevat. Dit wordt ook automatisch omgezet naar lowecase omdat er geen hoofletters in de namen van het json bestand zitten. Dit is om typfouten te voorkomen.
+Naast filteren en sorteren kunnen we ook zoeken. Wanneer er in de zoekbalk iets wordt ingetypt wordt er gekeken of een van de namen van de Pokémon de ingetypte letters bevat. Dit wordt ook automatisch omgezet naar lowecase omdat er geen hoofletters in de namen van het json bestand zitten. Dit is om typfouten te voorkomen.
 
 ```js
   const handleSearch = (search) => {
@@ -169,7 +169,7 @@ Hieronoder worden de functies aangeroepen vanuit de losse componenten filters en
   };
 ```
 
-Als laatst is het handig om de index te weten van alle Pokemons. Hiermee kan de pagination gemaakt worden. Omdat we hiermee weten wat de eerste pokemon en laatste pokemon van de pagina is kunnen we de juiste pokemon per pagina laten zien.
+Als laatst is het handig om de index te weten van alle Pokemons. Hiermee kan de pagination gemaakt worden. Omdat we hiermee weten wat de eerste Pokémon en laatste Pokémon van de pagina is kunnen we de juiste Pokémon per pagina laten zien.
 
 ```js
   // Get current Pokémon based on pagination
@@ -281,7 +281,7 @@ Hieronder worden de filter opties weergeven. We hebben eerder alle types gedefin
 
 ## Sorting Component
 
-In het sorting component wordt elke keer dat er iets veranderd de data (op wat we willen sorteren) doorgestuurd naar de page.js. Waar we de functie uitvoeren om de pokemons te sorteren op naam of index nummer.
+In het sorting component wordt elke keer dat er iets veranderd de data (op wat we willen sorteren) doorgestuurd naar de page.js. Waar we de functie uitvoeren om de Pokémons te sorteren op naam of index nummer.
 
 ```js
 'use client';
@@ -304,7 +304,7 @@ export default function SortingOptions({ sortOption, onSortChange }) {
 
 ## Search Component
 
-In de search compoment hoeven we alleen maar een input te maken waar we een pokemon in kunnen typen. Hierin zit een onChange function die elke keer als het veranderd de search variabele update en deze doorstuurd naar de page.js die de search functie uitvoert.
+In de search compoment hoeven we alleen maar een input te maken waar we een Pokemon in kunnen typen. Hierin zit een onChange function die elke keer als het veranderd de search variabele update en deze doorstuurd naar de page.js die de search functie uitvoert.
 
 ```js
 'use client';
@@ -335,9 +335,9 @@ export default function Search({ onSearch }) {
 
 Het Pokemon component is een kaartje van één Pokemon die hergebruikt worden voor alle Pokemon in de Pokedex. Omdat het een linkje moet worden naar de detail pagina importeer ik link van next en voor de afbeelding van de Pokemon gebruik ik image van next. Ik importeer dit i.p.v. het gebruik van de a en img tag omdat dit efficiënter en sneller schijnt te zijn.
 
-Omdat ik de afbeeldingen van pokemon.com mooier vind gebruik ik de index van de pokemon om deze op te halen. De afbeeldingen zijn namelijk benoemnd naar heet index nummer via deze site, maar omdat de index hier uit de pokemon api niet altijd 3 getallen heeft moeten we dit aanpassen. Dit doen we door 3 nullen voor de index te zetten en hem dan te knippen vanaf het laatste getal. Dus "0001" wordt "001",m "00023" wordt "023" en "000245" wordt "245". Dit kan je dan vervolgens gebruiken in een fetch voor de afbeelding van de Pokemon.
+Omdat ik de afbeeldingen van Pokémon.com mooier vind gebruik ik de index van de Pokémon om deze op te halen. De afbeeldingen zijn namelijk benoemnd naar heet index nummer via deze site, maar omdat de index hier uit de Pokémon api niet altijd 3 getallen heeft moeten we dit aanpassen. Dit doen we door 3 nullen voor de index te zetten en hem dan te knippen vanaf het laatste getal. Dus "0001" wordt "001",m "00023" wordt "023" en "000245" wordt "245". Dit kan je dan vervolgens gebruiken in een fetch voor de afbeelding van de Pokemon.
 
-Ik heb in dit geval een limit tot 999 pokemon omdat hij anders de afbeelding niet kan vinden. Dit zou ik later oplossen met een if else statement. (If pokeIndex => 999 .slice(-4)). Iets in die richting. Voor nu laat ik de limit even op 999 staan om de site niet te zwaar te maken.
+Ik heb in dit geval een limit tot 999 Pokémon omdat hij anders de afbeelding niet kan vinden. Dit zou ik later oplossen met een if else statement. (If pokeIndex => 999 .slice(-4)). Iets in die richting. Voor nu laat ik de limit even op 999 staan om de site niet te zwaar te maken.
 
 ```js
 import Image from "next/image";
@@ -371,7 +371,7 @@ export default function Pokemon({ pokemon, index }) {
 
 ## Detail Page
 
-Als laatste hebben we nog de detail pagina van de Pokemon. Hiervoor hebben we de specifieke data nodig van de geselecteerde pokemon. Ik heb er nu voor gekozen heel simpel een de naam, afbeelding en at stats te laten zien. Ook vond ik het leuk om te laten zien wat de evolution chain is van de pokemon en deze onder aan de pagina te tonen.
+Als laatste hebben we nog de detail pagina van de Pokemon. Hiervoor hebben we de specifieke data nodig van de geselecteerde Pokémon. Ik heb er nu voor gekozen heel simpel een de naam, afbeelding en at stats te laten zien. Ook vond ik het leuk om te laten zien wat de evolution chain is van de Pokémon en deze onder aan de pagina te tonen.
 
 ```js
 export default async function Page({ params }) {
@@ -441,7 +441,7 @@ export default async function Page({ params }) {
 }
 ```
 
-De meeste data kon ik gewoon tonen door de details van de pokemon te fetchen maar om bij de evolution chain te komen moest ik wat dieper gaan. Met wat hulp van onze vriend Chat kreeg ik alle pokemons die in de evolution chain zaten en heb ik deze onderaan de pagina toegevoegd.
+De meeste data kon ik gewoon tonen door de details van de Pokémon te fetchen maar om bij de evolution chain te komen moest ik wat dieper gaan. Met wat hulp van onze vriend Chat kreeg ik alle Pokémons die in de evolution chain zaten en heb ik deze onderaan de pagina toegevoegd.
 
 ```js
 const fetchDetails = async (name) => {
