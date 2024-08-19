@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 
-export default function Header({ onSearch, onFilter }) {
+export default function Header({ onSearch, onFilter, sortOption, setSortOption }) {
     const [search, setSearch] = useState("");
     const [selectedTypes, setSelectedTypes] = useState([]);
 
@@ -25,7 +25,7 @@ export default function Header({ onSearch, onFilter }) {
 
     return (
         <div className="pt-10 flex flex-col items-center">
-			<Image src="/pokeball.png" alt="Pokeball" width={100} height={100} />
+            <Image src="/pokeball.png" alt="Pokeball" width={100} height={100} />
             <h1 className="text-4xl font-bold mb-10 text-white text-center mt-5">Pokédex</h1>
             <input
                 type="search"
@@ -36,168 +36,30 @@ export default function Header({ onSearch, onFilter }) {
                 onChange={(e) => setSearch(e.target.value)}
             />
             <div className="mb-10 flex gap-4 flex-wrap justify-center">
-                <label className="cursor-pointer text-white font-bold rounded-full border-4 pt-1 pb-1 p-6 border-gray-500 bg-gray-600">
-                    <input
-						className="hidden"
-                        type="checkbox"
-                        value="fire"
-                        onChange={() => handleTypeChange("fire")}
-                    />{" "}
-                    Fire
-                </label>
-				<label className="cursor-pointer text-white font-bold rounded-full border-4 pt-1 pb-1 p-6 border-gray-500 bg-gray-600">
-                    <input
-						className="hidden"
-                        type="checkbox"
-                        value="water"
-                        onChange={() => handleTypeChange("water")}
-                    />{" "}
-                    Water
-                </label>
-				<label className="cursor-pointer text-white font-bold rounded-full border-4 pt-1 pb-1 p-6 border-gray-500 bg-gray-600">
-					<input
-						className="hidden"
-						type="checkbox"
-						value="grass"
-						onChange={() => handleTypeChange("grass")}
-					/>{" "}
-					Grass
-				</label>
-				<label className="cursor-pointer text-white font-bold rounded-full border-4 pt-1 pb-1 p-6 border-gray-500 bg-gray-600">
-					<input
-						className="hidden"
-						type="checkbox"
-						value="bug"
-						onChange={() => handleTypeChange("bug")}
-					/>{" "}
-					Bug
-				</label>
-				<label className="cursor-pointer text-white font-bold rounded-full border-4 pt-1 pb-1 p-6 border-gray-500 bg-gray-600">
-					<input
-						className="hidden"
-						type="checkbox"
-						value="normal"
-						onChange={() => handleTypeChange("normal")}
-					/>{" "}
-					Normal
-				</label>
-				<label className="cursor-pointer text-white font-bold rounded-full border-4 pt-1 pb-1 p-6 border-gray-500 bg-gray-600">
-					<input
-						className="hidden"
-						type="checkbox"
-						value="electric"
-						onChange={() => handleTypeChange("electric")}
-					/>{" "}
-					Electric
-				</label>
-				<label className="cursor-pointer text-white font-bold rounded-full border-4 pt-1 pb-1 p-6 border-gray-500 bg-gray-600">
-					<input
-						className="hidden"
-						type="checkbox"
-						value="ground"
-						onChange={() => handleTypeChange("ground")}
-					/>{" "}
-					Ground
-				</label>
-				<label className="cursor-pointer text-white font-bold rounded-full border-4 pt-1 pb-1 p-6 border-gray-500 bg-gray-600">
-					<input
-						className="hidden"
-						type="checkbox"
-						value="flying"
-						onChange={() => handleTypeChange("flying")}
-					/>{" "}
-					Flying
-				</label>
-				<label className="cursor-pointer text-white font-bold rounded-full border-4 pt-1 pb-1 p-6 border-gray-500 bg-gray-600">
-					<input
-						className="hidden"
-						type="checkbox"
-						value="fighting"
-						onChange={() => handleTypeChange("fighting")}
-					/>{" "}
-					Fighting
-				</label>
-				<label className="cursor-pointer text-white font-bold rounded-full border-4 pt-1 pb-1 p-6 border-gray-500 bg-gray-600">
-					<input
-						className="hidden"
-						type="checkbox"
-						value="psychic"
-						onChange={() => handleTypeChange("psychic")}
-					/>{" "}
-					Psychic
-				</label>
-				<label className="cursor-pointer text-white font-bold rounded-full border-4 pt-1 pb-1 p-6 border-gray-500 bg-gray-600">
-					<input
-						className="hidden"
-						type="checkbox"
-						value="rock"
-						onChange={() => handleTypeChange("rock")}
-					/>{" "}
-					Rock
-				</label>
-				<label className="cursor-pointer text-white font-bold rounded-full border-4 pt-1 pb-1 p-6 border-gray-500 bg-gray-600">
-					<input
-						className="hidden"
-						type="checkbox"
-						value="poison"
-						onChange={() => handleTypeChange("poison")}
-					/>{" "}
-					Poison
-				</label>
-				<label className="cursor-pointer text-white font-bold rounded-full border-4 pt-1 pb-1 p-6 border-gray-500 bg-gray-600">
-					<input
-						className="hidden"
-						type="checkbox"
-						value="ice"
-						onChange={() => handleTypeChange("ice")}
-					/>{" "}
-					Ice
-				</label>
-				<label className="cursor-pointer text-white font-bold rounded-full border-4 pt-1 pb-1 p-6 border-gray-500 bg-gray-600">
-					<input
-						className="hidden"
-						type="checkbox"
-						value="ghost"
-						onChange={() => handleTypeChange("ghost")}
-					/>{" "}
-					Ghost
-				</label>
-				<label className="cursor-pointer text-white font-bold rounded-full border-4 pt-1 pb-1 p-6 border-gray-500 bg-gray-600">
-					<input
-						className="hidden"
-						type="checkbox"
-						value="dragon"
-						onChange={() => handleTypeChange("dragon")}
-					/>{" "}
-					Dragon
-				</label>
-				<label className="cursor-pointer text-white font-bold rounded-full border-4 pt-1 pb-1 p-6 border-gray-500 bg-gray-600">
-					<input
-						className="hidden"
-						type="checkbox"
-						value="dark"
-						onChange={() => handleTypeChange("dark")}
-					/>{" "}
-					Dark
-				</label>
-				<label className="cursor-pointer text-white font-bold rounded-full border-4 pt-1 pb-1 p-6 border-gray-500 bg-gray-600">
-					<input
-						className="hidden"
-						type="checkbox"
-						value="steel"
-						onChange={() => handleTypeChange("steel")}
-					/>{" "}
-					Steel
-				</label>
-				<label className="cursor-pointer text-white font-bold rounded-full border-4 pt-1 pb-1 p-6 border-gray-500 bg-gray-600">
-					<input
-						className="hidden"
-						type="checkbox"
-						value="fairy"
-						onChange={() => handleTypeChange("fairy")}
-					/>{" "}
-					Fairy
-				</label>
+                {/* Type filters */}
+                {['fire', 'water', 'grass', 'bug', 'normal', 'electric', 'ground', 'flying', 'fighting', 'psychic', 'rock', 'poison', 'ice', 'ghost', 'dragon', 'dark', 'steel', 'fairy'].map(type => (
+                    <label key={type} className="cursor-pointer text-white font-bold rounded-full border-4 pt-1 pb-1 p-6 border-gray-500 bg-gray-600">
+                        <input
+                            className="hidden"
+                            type="checkbox"
+                            value={type}
+                            onChange={() => handleTypeChange(type)}
+                        />{" "}
+                        {type.charAt(0).toUpperCase() + type.slice(1)}
+                    </label>
+                ))}
+            </div>
+            <div className="flex gap-4 mb-10">
+                <select
+                    value={sortOption}
+                    onChange={(e) => setSortOption(e.target.value)}
+                    className="p-2 rounded-md"
+                >
+                    <option value="index-asc">Sort by Index (asc)</option>
+                    <option value="index-desc">Sort by Index (desc)</option>
+                    <option value="name-asc">Sort by Name (A-Z)</option>
+                    <option value="name-desc">Sort by Name (Z-A)</option>
+                </select>
             </div>
         </div>
     );
