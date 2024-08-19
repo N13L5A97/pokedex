@@ -1,27 +1,6 @@
-'use client';
-
-import { useEffect, useState } from "react";
 import Image from "next/image";
 
 export default function Header({ onSearch, onFilter, sortOption, setSortOption }) {
-    const [search, setSearch] = useState("");
-    const [selectedTypes, setSelectedTypes] = useState([]);
-
-    useEffect(() => {
-        if (onSearch) {
-            onSearch(search);
-        }
-    }, [search]);
-
-    const handleTypeChange = (type) => {
-        const updatedTypes = selectedTypes.includes(type)
-            ? selectedTypes.filter((t) => t !== type)
-            : [...selectedTypes, type];
-        setSelectedTypes(updatedTypes);
-        if (onFilter) {
-            onFilter(updatedTypes);
-        }
-    };
 
     return (
         <div className="pt-10 flex flex-col items-center">

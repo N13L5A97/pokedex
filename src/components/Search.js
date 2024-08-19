@@ -6,9 +6,7 @@ export default function Search({ onSearch }) {
     const [search, setSearch] = useState("");
 
     useEffect(() => {
-        if (onSearch) {
-            onSearch(search);
-        }
+        onSearch(search);
     }, [search]);
 
     return (

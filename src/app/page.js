@@ -22,10 +22,13 @@ export default function Home() {
       const res = await fetch('https://pokeapi.co/api/v2/pokemon?limit=999');
       const data = await res.json();
 
+      // console.log(data.results);
+
       const detailedData = await Promise.all(
         data.results.map(async (pokemon) => {
           const details = await fetch(pokemon.url).then((res) => res.json());
           const pokeIndex = details.id;
+          // console.log(pokemon.url);
           return { 
             ...pokemon,
             index: pokeIndex,
@@ -97,7 +100,7 @@ export default function Home() {
   const currentPokemon = filteredPokemon.slice(indexOfFirstPokemon, indexOfLastPokemon);
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24 pt-0">
+    <main className="flex min-h-screen flex-col items-center p-24 pt-0">
       <Header></Header>
       <Search onSearch={handleSearch}> </Search>
       <Filters onFilter={handleFilter}> </Filters>

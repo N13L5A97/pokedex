@@ -3,6 +3,12 @@
 import { useState } from 'react';
 
 export default function Filters({ onFilter }) {
+    const types = [
+        'fire', 'water', 'grass', 'bug', 'normal', 'electric',
+        'ground', 'flying', 'fighting', 'psychic', 'rock', 'poison',
+        'ice', 'ghost', 'dragon', 'dark', 'steel', 'fairy'
+    ];
+
     const [selectedTypes, setSelectedTypes] = useState([]);
 
     const handleTypeChange = (type) => {
@@ -15,11 +21,6 @@ export default function Filters({ onFilter }) {
         }
     };
 
-    const types = [
-        'fire', 'water', 'grass', 'bug', 'normal', 'electric',
-        'ground', 'flying', 'fighting', 'psychic', 'rock', 'poison',
-        'ice', 'ghost', 'dragon', 'dark', 'steel', 'fairy'
-    ];
 
     return (
         <div className="mb-10 flex gap-4 flex-wrap justify-center">
