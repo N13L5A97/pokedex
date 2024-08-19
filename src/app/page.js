@@ -57,7 +57,7 @@ export default function Home() {
         />
       </div>
       {/* pokemon cards */}
-      <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4 w-full">
         {paginatedData.map((pokemon, index) => (
           <Pokemon key={index} pokemon={pokemon} index={startIndex + index} />
         ))}

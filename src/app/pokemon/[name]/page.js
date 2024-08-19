@@ -9,7 +9,6 @@ export default async function Page({ params }) {
                     <h1 className="text-4xl font-bold capitalize">{pokeData.name}</h1>
                     <img src={pokeData.sprites.front_default} alt={pokeData.name} width={200} height={200} />
                 </div>
-
                 <div>
                     <h2 className="text-xl">Base Experience: {pokeData.base_experience}</h2>
                     <h2 className="text-xl">Height: {pokeData.height}</h2>
