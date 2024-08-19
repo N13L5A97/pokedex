@@ -16,6 +16,12 @@
   }
 }
 
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
 body {
   color: rgb(var(--foreground-rgb));
   background: linear-gradient(
@@ -31,8 +37,95 @@ h1{
   font-weight: 700;
 }
 
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
-  }
+/* ckecked filters */
+
+label:has(input[value="fire"]:checked) {
+  background-color: #904f1d;
+  border-color: #EE8130;
 }
+
+label:has(input[value="water"]:checked) {
+  background-color: #39538a;
+  border-color: #6390F0;
+}
+
+label:has(input[value="grass"]:checked) {
+  background-color: #406a28;
+  border-color: #7AC74C;
+}
+
+label:has(input[value="electric"]:checked) {
+  background-color: #846f18;
+  border-color: #F7D02C;
+}
+
+label:has(input[value="psychic"]:checked) {
+  background-color: #92324f;
+  border-color: #F95587;
+}
+
+label:has(input[value="ice"]:checked) {
+  background-color: #507371;
+  border-color: #96D9D6;
+}
+
+label:has(input[value="dragon"]:checked) {
+  background-color: #411f95;
+  border-color: #6F35FC;
+}
+
+label:has(input[value="dark"]:checked) {
+  background-color: #271e18;
+  border-color: #705746;
+}
+
+label:has(input[value="fairy"]:checked) {
+  background-color: #694155;
+  border-color: #D685AD;
+}
+
+label:has(input[value="normal"]:checked) {
+  background-color: #3b3b2c;
+  border-color: #A8A77A;
+}
+
+label:has(input[value="fighting"]:checked) {
+  background-color: #5c1513;
+  border-color: #C22E28;
+}
+
+label:has(input[value="flying"]:checked) {
+  background-color: #594b7f;
+  border-color: #A98FF3;
+}
+
+label:has(input[value="poison"]:checked) {
+  background-color: #471b46;
+  border-color: #A33EA1;
+}
+
+label:has(input[value="ground"]:checked) {
+  background-color: #63542e;
+  border-color: #E2BF65;
+}
+
+label:has(input[value="rock"]:checked) {
+  background-color: #574d1a;
+  border-color: #B6A136;
+}
+
+label:has(input[value="bug"]:checked) {
+  background-color: #4c550c;
+  border-color: #A6B91A;
+}
+
+label:has(input[value="ghost"]:checked) {
+  background-color: #362946;
+  border-color: #735797;
+}
+
+label:has(input[value="steel"]:checked) {
+  background-color: #46464e;
+  border-color: #B7B7CE;
+}
+

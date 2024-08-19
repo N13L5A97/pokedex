@@ -26,7 +26,7 @@ export default function Header({ onSearch, onFilter }) {
     return (
         <div className="pt-10 flex flex-col items-center">
 			<Image src="/pokeball.png" alt="Pokeball" width={100} height={100} />
-            <h1 className="text-4xl font-bold mb-10 text-white text-center mt-5">Pokedex</h1>
+            <h1 className="text-4xl font-bold mb-10 text-white text-center mt-5">Pokédex</h1>
             <input
                 type="search"
                 id="search"
@@ -36,7 +36,7 @@ export default function Header({ onSearch, onFilter }) {
                 onChange={(e) => setSearch(e.target.value)}
             />
             <div className="mb-10 flex gap-4 flex-wrap justify-center">
-                <label className="text-white font-bold rounded-full border-4 pt-1 pb-1 p-6 border-gray-500 bg-gray-600">
+                <label className="cursor-pointer text-white font-bold rounded-full border-4 pt-1 pb-1 p-6 border-gray-500 bg-gray-600">
                     <input
 						className="hidden"
                         type="checkbox"
@@ -45,7 +45,7 @@ export default function Header({ onSearch, onFilter }) {
                     />{" "}
                     Fire
                 </label>
-				<label className="text-white font-bold rounded-full border-4 pt-1 pb-1 p-6 border-gray-500 bg-gray-600">
+				<label className="cursor-pointer text-white font-bold rounded-full border-4 pt-1 pb-1 p-6 border-gray-500 bg-gray-600">
                     <input
 						className="hidden"
                         type="checkbox"
@@ -54,7 +54,7 @@ export default function Header({ onSearch, onFilter }) {
                     />{" "}
                     Water
                 </label>
-				<label className="text-white font-bold rounded-full border-4 pt-1 pb-1 p-6 border-gray-500 bg-gray-600">
+				<label className="cursor-pointer text-white font-bold rounded-full border-4 pt-1 pb-1 p-6 border-gray-500 bg-gray-600">
 					<input
 						className="hidden"
 						type="checkbox"
@@ -63,7 +63,7 @@ export default function Header({ onSearch, onFilter }) {
 					/>{" "}
 					Grass
 				</label>
-				<label className="text-white font-bold rounded-full border-4 pt-1 pb-1 p-6 border-gray-500 bg-gray-600">
+				<label className="cursor-pointer text-white font-bold rounded-full border-4 pt-1 pb-1 p-6 border-gray-500 bg-gray-600">
 					<input
 						className="hidden"
 						type="checkbox"
@@ -72,7 +72,7 @@ export default function Header({ onSearch, onFilter }) {
 					/>{" "}
 					Bug
 				</label>
-				<label className="text-white font-bold rounded-full border-4 pt-1 pb-1 p-6 border-gray-500 bg-gray-600">
+				<label className="cursor-pointer text-white font-bold rounded-full border-4 pt-1 pb-1 p-6 border-gray-500 bg-gray-600">
 					<input
 						className="hidden"
 						type="checkbox"
@@ -81,7 +81,7 @@ export default function Header({ onSearch, onFilter }) {
 					/>{" "}
 					Normal
 				</label>
-				<label className="text-white font-bold rounded-full border-4 pt-1 pb-1 p-6 border-gray-500 bg-gray-600">
+				<label className="cursor-pointer text-white font-bold rounded-full border-4 pt-1 pb-1 p-6 border-gray-500 bg-gray-600">
 					<input
 						className="hidden"
 						type="checkbox"
@@ -90,7 +90,7 @@ export default function Header({ onSearch, onFilter }) {
 					/>{" "}
 					Electric
 				</label>
-				<label className="text-white font-bold rounded-full border-4 pt-1 pb-1 p-6 border-gray-500 bg-gray-600">
+				<label className="cursor-pointer text-white font-bold rounded-full border-4 pt-1 pb-1 p-6 border-gray-500 bg-gray-600">
 					<input
 						className="hidden"
 						type="checkbox"
@@ -99,7 +99,7 @@ export default function Header({ onSearch, onFilter }) {
 					/>{" "}
 					Ground
 				</label>
-				<label className="text-white font-bold rounded-full border-4 pt-1 pb-1 p-6 border-gray-500 bg-gray-600">
+				<label className="cursor-pointer text-white font-bold rounded-full border-4 pt-1 pb-1 p-6 border-gray-500 bg-gray-600">
 					<input
 						className="hidden"
 						type="checkbox"
@@ -108,7 +108,7 @@ export default function Header({ onSearch, onFilter }) {
 					/>{" "}
 					Flying
 				</label>
-				<label className="text-white font-bold rounded-full border-4 pt-1 pb-1 p-6 border-gray-500 bg-gray-600">
+				<label className="cursor-pointer text-white font-bold rounded-full border-4 pt-1 pb-1 p-6 border-gray-500 bg-gray-600">
 					<input
 						className="hidden"
 						type="checkbox"
@@ -117,7 +117,7 @@ export default function Header({ onSearch, onFilter }) {
 					/>{" "}
 					Fighting
 				</label>
-				<label className="text-white font-bold rounded-full border-4 pt-1 pb-1 p-6 border-gray-500 bg-gray-600">
+				<label className="cursor-pointer text-white font-bold rounded-full border-4 pt-1 pb-1 p-6 border-gray-500 bg-gray-600">
 					<input
 						className="hidden"
 						type="checkbox"
@@ -126,7 +126,7 @@ export default function Header({ onSearch, onFilter }) {
 					/>{" "}
 					Psychic
 				</label>
-				<label className="text-white font-bold rounded-full border-4 pt-1 pb-1 p-6 border-gray-500 bg-gray-600">
+				<label className="cursor-pointer text-white font-bold rounded-full border-4 pt-1 pb-1 p-6 border-gray-500 bg-gray-600">
 					<input
 						className="hidden"
 						type="checkbox"
@@ -135,7 +135,7 @@ export default function Header({ onSearch, onFilter }) {
 					/>{" "}
 					Rock
 				</label>
-				<label className="text-white font-bold rounded-full border-4 pt-1 pb-1 p-6 border-gray-500 bg-gray-600">
+				<label className="cursor-pointer text-white font-bold rounded-full border-4 pt-1 pb-1 p-6 border-gray-500 bg-gray-600">
 					<input
 						className="hidden"
 						type="checkbox"
@@ -144,7 +144,7 @@ export default function Header({ onSearch, onFilter }) {
 					/>{" "}
 					Poison
 				</label>
-				<label className="text-white font-bold rounded-full border-4 pt-1 pb-1 p-6 border-gray-500 bg-gray-600">
+				<label className="cursor-pointer text-white font-bold rounded-full border-4 pt-1 pb-1 p-6 border-gray-500 bg-gray-600">
 					<input
 						className="hidden"
 						type="checkbox"
@@ -153,7 +153,7 @@ export default function Header({ onSearch, onFilter }) {
 					/>{" "}
 					Ice
 				</label>
-				<label className="text-white font-bold rounded-full border-4 pt-1 pb-1 p-6 border-gray-500 bg-gray-600">
+				<label className="cursor-pointer text-white font-bold rounded-full border-4 pt-1 pb-1 p-6 border-gray-500 bg-gray-600">
 					<input
 						className="hidden"
 						type="checkbox"
@@ -162,7 +162,7 @@ export default function Header({ onSearch, onFilter }) {
 					/>{" "}
 					Ghost
 				</label>
-				<label className="text-white font-bold rounded-full border-4 pt-1 pb-1 p-6 border-gray-500 bg-gray-600">
+				<label className="cursor-pointer text-white font-bold rounded-full border-4 pt-1 pb-1 p-6 border-gray-500 bg-gray-600">
 					<input
 						className="hidden"
 						type="checkbox"
@@ -171,7 +171,7 @@ export default function Header({ onSearch, onFilter }) {
 					/>{" "}
 					Dragon
 				</label>
-				<label className="text-white font-bold rounded-full border-4 pt-1 pb-1 p-6 border-gray-500 bg-gray-600">
+				<label className="cursor-pointer text-white font-bold rounded-full border-4 pt-1 pb-1 p-6 border-gray-500 bg-gray-600">
 					<input
 						className="hidden"
 						type="checkbox"
@@ -180,7 +180,7 @@ export default function Header({ onSearch, onFilter }) {
 					/>{" "}
 					Dark
 				</label>
-				<label className="text-white font-bold rounded-full border-4 pt-1 pb-1 p-6 border-gray-500 bg-gray-600">
+				<label className="cursor-pointer text-white font-bold rounded-full border-4 pt-1 pb-1 p-6 border-gray-500 bg-gray-600">
 					<input
 						className="hidden"
 						type="checkbox"
@@ -189,7 +189,7 @@ export default function Header({ onSearch, onFilter }) {
 					/>{" "}
 					Steel
 				</label>
-				<label className="text-white font-bold rounded-full border-4 pt-1 pb-1 p-6 border-gray-500 bg-gray-600">
+				<label className="cursor-pointer text-white font-bold rounded-full border-4 pt-1 pb-1 p-6 border-gray-500 bg-gray-600">
 					<input
 						className="hidden"
 						type="checkbox"
