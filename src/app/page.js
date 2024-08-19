@@ -1,8 +1,11 @@
-'use client';
-
+// pages/index.js
+"use client";
 import { useEffect, useState } from "react";
 import Pokemon from "../components/Pokemon";
 import Header from "../components/Header";
+import Search from "../components/Search";
+import Filters from "../components/Filters";
+import Sorting from "../components/Sorting";
 
 export default function Home() {
   const [allPokemon, setAllPokemon] = useState([]);
@@ -95,17 +98,15 @@ export default function Home() {
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24 pt-0">
-      <Header 
-        onSearch={handleSearch} 
-        onFilter={handleFilter} 
-        sortOption={sortOption}
-        setSortOption={handleSortChange}
-      />
+      <Header></Header>
+      <Search onSearch={handleSearch}> </Search>
+      <Filters onFilter={handleFilter}> </Filters>
+      <Sorting sortOption={sortOption} onSortChange={handleSortChange}> </Sorting>
       {loading ? (
         <div className="text-center text-white">Loading...</div>
       ) : (
         <>
-          <div className="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-5 gap-4 w-full">
+          <div className="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-5 gap-4 w-full mt-10">
             {currentPokemon.map((pokemon, index) => (
               <Pokemon key={index} pokemon={pokemon} index={indexOfFirstPokemon + index} />
             ))}
