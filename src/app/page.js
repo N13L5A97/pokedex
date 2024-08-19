@@ -7,28 +7,32 @@ export default function Home() {
   const [allPokemon, setAllPokemon] = useState([]);
   const [filteredPokemon, setFilteredPokemon] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [sortOption, setSortOption] = useState('index-asc'); // Default sort by name ascending
+  const [sortOption, setSortOption] = useState('index-asc'); // Default sort by index ascending
+  const [selectedTypes, setSelectedTypes] = useState([]);
   const pokemonPerPage = 20;
 
+  // Fetch and process Pokémon data
   const fetchAllPokemon = async () => {
-    const res = await fetch('https://pokeapi.co/api/v2/pokemon?limit=1000');
-    const data = await res.json();
+    try {
+      const res = await fetch('https://pokeapi.co/api/v2/pokemon?limit=1000');
+      const data = await res.json();
 
-    const detailedData = await Promise.all(
-      data.results.map(async (pokemon) => {
-        // Extract Pokémon index number from the URL
-        const pokeIndex = pokemon.url.split('/').slice(-2, -1)[0];
-        const details = await fetch(pokemon.url).then((res) => res.json());
-        return { 
-          ...pokemon,
-          index: Number(pokeIndex),
-          types: details.types.map((typeInfo) => typeInfo.type.name) 
-        };
-      })
-    );
+      const detailedData = await Promise.all(
+        data.results.map(async (pokemon) => {
+          const details = await fetch(pokemon.url).then((res) => res.json());
+          return { 
+            ...pokemon,
+            index: details.id, // Pokémon index
+            types: details.types.map((typeInfo) => typeInfo.type.name) 
+          };
+        })
+      );
 
-    setAllPokemon(detailedData);
-    setFilteredPokemon(detailedData);
+      setAllPokemon(detailedData);
+      setFilteredPokemon(detailedData);
+    } catch (error) {
+      console.error('Failed to fetch Pokémon:', error);
+    }
   };
 
   useEffect(() => {
@@ -36,8 +40,17 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
-    // Apply sorting whenever the sort option changes or filters are applied
-    const sorted = [...filteredPokemon].sort((a, b) => {
+    // Apply filters
+    let filtered = allPokemon;
+
+    if (selectedTypes.length > 0) {
+      filtered = allPokemon.filter((pokemon) =>
+        pokemon.types.some((type) => selectedTypes.includes(type))
+      );
+    }
+
+    // Apply sorting
+    const sortBy = (a, b) => {
       if (sortOption === 'name-asc') {
         return a.name.localeCompare(b.name);
       } else if (sortOption === 'name-desc') {
@@ -48,11 +61,13 @@ export default function Home() {
         return b.index - a.index;
       }
       return 0;
-    });
+    };
 
-    setFilteredPokemon(sorted);
-    setCurrentPage(1); // Reset to first page on sort change
-  }, [sortOption, filteredPokemon]);
+    filtered.sort(sortBy);
+
+    setFilteredPokemon(filtered);
+    setCurrentPage(1); // Reset to first page on filter or sort change
+  }, [sortOption, selectedTypes, allPokemon]);
 
   const handleSearch = (search) => {
     const filtered = allPokemon.filter((pokemon) =>
@@ -62,29 +77,8 @@ export default function Home() {
     setCurrentPage(1); // Reset to first page
   };
 
-  const handleFilter = (selectedTypes) => {
-    let filtered = allPokemon;
-    if (selectedTypes.length > 0) {
-      filtered = allPokemon.filter((pokemon) =>
-        pokemon.types.some((type) => selectedTypes.includes(type))
-      );
-    }
-    // Apply sorting after filtering
-    const sorted = filtered.sort((a, b) => {
-      if (sortOption === 'name-asc') {
-        return a.name.localeCompare(b.name);
-      } else if (sortOption === 'name-desc') {
-        return b.name.localeCompare(a.name);
-      } else if (sortOption === 'index-asc') {
-        return a.index - b.index;
-      } else if (sortOption === 'index-desc') {
-        return b.index - a.index;
-      }
-      return 0;
-    });
-
-    setFilteredPokemon(sorted);
-    setCurrentPage(1); // Reset to first page
+  const handleFilter = (types) => {
+    setSelectedTypes(types);
   };
 
   // Get current Pokémon based on pagination
