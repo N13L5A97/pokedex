@@ -7,6 +7,7 @@ export default function Home() {
   const [allPokemon, setAllPokemon] = useState([]);
   const [filteredPokemon, setFilteredPokemon] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
+  const [sortOption, setSortOption] = useState('index-asc'); // Default sort by name ascending
   const pokemonPerPage = 20;
 
   const fetchAllPokemon = async () => {
@@ -15,8 +16,14 @@ export default function Home() {
 
     const detailedData = await Promise.all(
       data.results.map(async (pokemon) => {
+        // Extract Pokémon index number from the URL
+        const pokeIndex = pokemon.url.split('/').slice(-2, -1)[0];
         const details = await fetch(pokemon.url).then((res) => res.json());
-        return { ...pokemon, types: details.types.map((typeInfo) => typeInfo.type.name) };
+        return { 
+          ...pokemon,
+          index: Number(pokeIndex),
+          types: details.types.map((typeInfo) => typeInfo.type.name) 
+        };
       })
     );
 
@@ -28,6 +35,25 @@ export default function Home() {
     fetchAllPokemon();
   }, []);
 
+  useEffect(() => {
+    // Apply sorting whenever the sort option changes or filters are applied
+    const sorted = [...filteredPokemon].sort((a, b) => {
+      if (sortOption === 'name-asc') {
+        return a.name.localeCompare(b.name);
+      } else if (sortOption === 'name-desc') {
+        return b.name.localeCompare(a.name);
+      } else if (sortOption === 'index-asc') {
+        return a.index - b.index;
+      } else if (sortOption === 'index-desc') {
+        return b.index - a.index;
+      }
+      return 0;
+    });
+
+    setFilteredPokemon(sorted);
+    setCurrentPage(1); // Reset to first page on sort change
+  }, [sortOption, filteredPokemon]);
+
   const handleSearch = (search) => {
     const filtered = allPokemon.filter((pokemon) =>
       pokemon.name.toLowerCase().includes(search.toLowerCase())
@@ -37,15 +63,27 @@ export default function Home() {
   };
 
   const handleFilter = (selectedTypes) => {
-    if (selectedTypes.length === 0) {
-      setFilteredPokemon(allPokemon);
-      return;
+    let filtered = allPokemon;
+    if (selectedTypes.length > 0) {
+      filtered = allPokemon.filter((pokemon) =>
+        pokemon.types.some((type) => selectedTypes.includes(type))
+      );
     }
+    // Apply sorting after filtering
+    const sorted = filtered.sort((a, b) => {
+      if (sortOption === 'name-asc') {
+        return a.name.localeCompare(b.name);
+      } else if (sortOption === 'name-desc') {
+        return b.name.localeCompare(a.name);
+      } else if (sortOption === 'index-asc') {
+        return a.index - b.index;
+      } else if (sortOption === 'index-desc') {
+        return b.index - a.index;
+      }
+      return 0;
+    });
 
-    const filtered = allPokemon.filter((pokemon) =>
-      pokemon.types.some((type) => selectedTypes.includes(type))
-    );
-    setFilteredPokemon(filtered);
+    setFilteredPokemon(sorted);
     setCurrentPage(1); // Reset to first page
   };
 
@@ -57,6 +95,18 @@ export default function Home() {
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24 pt-0">
       <Header onSearch={handleSearch} onFilter={handleFilter} />
+      <div className="flex gap-4 mb-4">
+        <select
+          value={sortOption}
+          onChange={(e) => setSortOption(e.target.value)}
+          className="p-2 rounded-md"
+        >
+          <option value="index-asc">Sort by Index (asc)</option>
+          <option value="index-desc">Sort by Index (desc)</option>
+          <option value="name-asc">Sort by Name (A-Z)</option>
+          <option value="name-desc">Sort by Name (Z-A)</option>
+        </select>
+      </div>
       <div className="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-5 gap-4 w-full">
         {currentPokemon.map((pokemon, index) => (
           <Pokemon key={index} pokemon={pokemon} index={indexOfFirstPokemon + index} />
@@ -67,7 +117,7 @@ export default function Home() {
           className="p-2 px-4 rounded-md bg-sky-500"
           onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
           disabled={currentPage === 1}
-          >
+        >
           Prev
         </button>
         {/* show page numbers */}
