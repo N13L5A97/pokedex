@@ -1,81 +1,79 @@
 "use client";
-
 import { useEffect, useState } from "react";
 import Pokemon from "../components/Pokemon";
+import Header from "../components/Header";
 
 export default function Home() {
-  const [data, setData] = useState([]);
-  const [filteredData, setFilteredData] = useState([]);
-  const [searchQuery, setSearchQuery] = useState("");
+  const [allPokemon, setAllPokemon] = useState([]);
+  const [filteredPokemon, setFilteredPokemon] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 20; // Set the number of items per page
+  const pokemonPerPage = 20;
 
-  // Fetch all Pokémon data on component mount
+  const fetchAllPokemon = async () => {
+    const res = await fetch('https://pokeapi.co/api/v2/pokemon?limit=1000');
+    const data = await res.json();
+
+    const detailedData = await Promise.all(
+      data.results.map(async (pokemon) => {
+        const details = await fetch(pokemon.url).then((res) => res.json());
+        return { ...pokemon, types: details.types.map((typeInfo) => typeInfo.type.name) };
+      })
+    );
+
+    setAllPokemon(detailedData);
+    setFilteredPokemon(detailedData);
+  };
+
   useEffect(() => {
-    const fetchAllPokemon = async () => {
-      let url = "https://pokeapi.co/api/v2/pokemon?limit=10000"; // Fetching all Pokémon
-      try {
-        const res = await fetch(url);
-        const allPokemonData = await res.json();
-        setData(allPokemonData.results);
-        setFilteredData(allPokemonData.results); // Initially, display all Pokémon
-      } catch (error) {
-        console.error("Error fetching Pokémon:", error);
-      }
-    };
-
     fetchAllPokemon();
   }, []);
 
-  // Filter Pokémon based on the search query
-  useEffect(() => {
-    if (searchQuery) {
-      const filtered = data.filter((pokemon) =>
-        pokemon.name.toLowerCase().startsWith(searchQuery.toLowerCase())
-      );
-      setFilteredData(filtered);
-      setCurrentPage(1); // Reset to the first page when searching
-    } else {
-      setFilteredData(data); // Show all Pokémon if there's no search query
-    }
-  }, [searchQuery, data]);
+  const handleSearch = (search) => {
+    const filtered = allPokemon.filter((pokemon) =>
+      pokemon.name.toLowerCase().includes(search.toLowerCase())
+    );
+    setFilteredPokemon(filtered);
+    setCurrentPage(1); // Reset to first page
+  };
 
-  // Calculate the current page's Pokémon to display
-  const startIndex = (currentPage - 1) * itemsPerPage;
-  const paginatedData = filteredData.slice(startIndex, startIndex + itemsPerPage);
-  const totalPages = Math.ceil(filteredData.length / itemsPerPage);
+  const handleFilter = (selectedTypes) => {
+    if (selectedTypes.length === 0) {
+      setFilteredPokemon(allPokemon);
+      return;
+    }
+
+    const filtered = allPokemon.filter((pokemon) =>
+      pokemon.types.some((type) => selectedTypes.includes(type))
+    );
+    setFilteredPokemon(filtered);
+    setCurrentPage(1); // Reset to first page
+  };
+
+  // Get current Pokémon based on pagination
+  const indexOfLastPokemon = currentPage * pokemonPerPage;
+  const indexOfFirstPokemon = indexOfLastPokemon - pokemonPerPage;
+  const currentPokemon = filteredPokemon.slice(indexOfFirstPokemon, indexOfLastPokemon);
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24 pt-0">
-      <div className="w-full">
-        <input
-          type="search"
-          placeholder="Search for a Pokémon"
-          className="w-full p-2 rounded-lg mb-10"
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-        />
-      </div>
-      {/* pokemon cards */}
-      <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4 w-full">
-        {paginatedData.map((pokemon, index) => (
-          <Pokemon key={index} pokemon={pokemon} index={startIndex + index} />
+      <Header onSearch={handleSearch} onFilter={handleFilter} />
+      <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4">
+        {currentPokemon.map((pokemon, index) => (
+          <Pokemon key={index} pokemon={pokemon} index={indexOfFirstPokemon + index} />
         ))}
       </div>
-      {/* Pagination Controls */}
       <div className="w-full flex justify-center gap-4 mt-10">
-        <button
+        <button 
           className="p-2 px-4 rounded-md bg-sky-500"
           onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
           disabled={currentPage === 1}
-        >
+          >
           Prev
         </button>
-        <span className="text-white">{`Page ${currentPage} of ${totalPages}`}</span>
-        <button
+        <button 
           className="p-2 px-4 rounded-md bg-sky-500"
-          onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
-          disabled={currentPage === totalPages}
+          onClick={() => setCurrentPage((prev) => (indexOfLastPokemon < filteredPokemon.length ? prev + 1 : prev))}
+          disabled={indexOfLastPokemon >= filteredPokemon.length}
         >
           Next
         </button>
