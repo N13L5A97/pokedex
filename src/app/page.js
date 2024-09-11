@@ -121,9 +121,9 @@ export default function Home() {
               Prev
             </button>
             <div className="flex items-center gap-2">
-              <p className="text-white">{currentPage}</p>
-              <p className="text-white">/</p>
-              <p className="text-white">{Math.ceil(filteredPokemon.length / pokemonPerPage)}</p>
+              <p>{currentPage}</p>
+              <p>/</p>
+              <p>{Math.ceil(filteredPokemon.length / pokemonPerPage)}</p>
             </div>
             <button 
               className="p-2 px-4 rounded-md bg-sky-500"

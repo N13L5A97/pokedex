@@ -5,7 +5,7 @@ export default function SortingOptions({ sortOption, onSortChange }) {
         <select
             value={sortOption}
             onChange={(e) => onSortChange(e.target.value)}
-            className="p-2 rounded-md"
+            className="p-2 text-black rounded-md"
         >
             <option value="index-asc">Sort by Index (asc)</option>
             <option value="index-desc">Sort by Index (desc)</option>
