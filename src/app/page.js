@@ -2,7 +2,6 @@
 "use client";
 import { useEffect, useState } from "react";
 import Pokemon from "../components/Pokemon";
-import Header from "../components/Header";
 import Search from "../components/Search";
 import Filters from "../components/Filters";
 import Sorting from "../components/Sorting";
@@ -100,8 +99,7 @@ export default function Home() {
   const currentPokemon = filteredPokemon.slice(indexOfFirstPokemon, indexOfLastPokemon);
 
   return (
-    <main className="flex min-h-screen flex-col items-center p-24 pt-0">
-      <Header></Header>
+    <main className="flex flex-col items-center min-h-screen p-24 pt-0">
       <Search onSearch={handleSearch}> </Search>
       <Filters onFilter={handleFilter}> </Filters>
       <Sorting sortOption={sortOption} onSortChange={handleSortChange}> </Sorting>
@@ -109,12 +107,12 @@ export default function Home() {
         <div className="text-center text-white">Loading...</div>
       ) : (
         <>
-          <div className="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-5 gap-4 w-full mt-10">
+          <div className="grid w-full grid-cols-1 gap-4 mt-10 md:grid-cols-4 lg:grid-cols-5">
             {currentPokemon.map((pokemon, index) => (
               <Pokemon key={index} pokemon={pokemon} index={indexOfFirstPokemon + index} />
             ))}
           </div>
-          <div className="w-full flex justify-center gap-4 mt-10">
+          <div className="flex justify-center w-full gap-4 mt-10">
             <button 
               className="p-2 px-4 rounded-md bg-sky-500"
               onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
@@ -122,7 +120,7 @@ export default function Home() {
             >
               Prev
             </button>
-            <div className="flex gap-2 items-center">
+            <div className="flex items-center gap-2">
               <p className="text-white">{currentPage}</p>
               <p className="text-white">/</p>
               <p className="text-white">{Math.ceil(filteredPokemon.length / pokemonPerPage)}</p>
