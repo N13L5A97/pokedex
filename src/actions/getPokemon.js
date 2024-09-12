@@ -1,8 +1,5 @@
-export default async function getPokemon () {
-        const res = await fetch('https://pokeapi.co/api/v2/pokemon');
-        const data = await res.json();
-  
-        // console.log(data);
-
-    return(data)
+export default async function getPokemon({ fetchUrl = 'https://pokeapi.co/api/v2/pokemon' }) {
+    const res = await fetch(fetchUrl);
+    const data = await res.json();
+    return data;
 }
