@@ -1,13 +1,18 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useSearchParams } from 'next/navigation';
 
-export default function Search({ onSearch }) {
-    const [search, setSearch] = useState("");
+export default function Search() {
+    const searchParams = useSearchParams();
+    
+    function handleSearch() {
+        const params = new URLSearchParams(searchParams);
+    
+        console.log("check");
+        
+        
+      }
 
-    useEffect(() => {
-        onSearch(search);
-    }, [search]);
 
     return (
         <input
@@ -15,8 +20,9 @@ export default function Search({ onSearch }) {
             id="search"
             placeholder="Search for a Pokemon"
             className="w-full p-2 mb-10 text-black rounded-lg"
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
+            onChange={(e) =>{
+                handleSearch(e.target.value);
+            }}
         />
     );
 }
