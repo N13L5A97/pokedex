@@ -1,6 +1,8 @@
 import getPokemon from "@/actions/getPokemon";
 import getAllPokemon from "@/actions/getAllPokemon";
+
 import Search from "@/components/Search";
+import Filters from "@/components/Filters"
 import PokemonCard from "@/components/PokemonCard";
 import Pagination from "@/components/Pagination";
 
@@ -46,6 +48,7 @@ export default async function Home({ searchParams }) {
   return (
     <main className="flex flex-col items-center min-h-screen p-24 pt-0">
       <Search />
+      <Filters />
       <div className="grid w-full grid-cols-1 gap-4 mt-10 md:grid-cols-4 lg:grid-cols-5">
         {pokemons.map((pokemon) => (
           <PokemonCard key={pokemon.name} name={pokemon.name} url={pokemon.url} />
