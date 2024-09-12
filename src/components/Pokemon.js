@@ -5,7 +5,7 @@ export default function Pokemon({ pokemon, index }) {
     const pokeIndex = pokemon.index;
     const stringIndex = ('000' + pokeIndex).slice(-3);
 
-    console.log(pokemon.index);
+    // console.log(pokemon.index);
 
     return (
         <div key={index} className="relative flex-col items-center justify-center w-full p-4 text-black bg-white rounded-lg">
