@@ -4,14 +4,17 @@ import Link from "next/link";
 export default function Pokemon(pokemon) {
 
     const index = pokemon.url.slice(34).slice(0, -1); 
-    const pokeIndex = ("000" + index).slice(-3);
+    let pokeIndex = ("000" + index).slice(-3);
 
-    // if (pokeIndex >= 1000) {
-    //     pokeIndex = ("000" + index.slice(-4));
-    //     console.log("its higher then 999")
-    // } else {
-        
-    // }
+    // make string into int to check if index is above 999
+    const indexInt = parseInt(index, 10);
+
+    console.log(indexInt);
+
+    if (indexInt >= 1000) {
+        pokeIndex = index;
+        // console.log("its higher then 999")
+    }
 
     // console.log(pokeIndex);
     
