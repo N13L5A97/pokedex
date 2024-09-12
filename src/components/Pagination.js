@@ -1,9 +1,22 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useSearchParams, useRouter } from 'next/navigation';
 
 export default function Pagination({ totalPages }) {
-    const [currentPage, setCurrentPage] = useState(1);
+    const searchParams = useSearchParams();
+    const router = useRouter();
+    
+    const initialPage = parseInt(searchParams.get("page") || "1", 10);
+    const [currentPage, setCurrentPage] = useState(initialPage);
+
+    useEffect(() => {
+        if (currentPage > 1){
+            router.push(`?page=${currentPage}`);
+        } else {
+            router.push("/");
+        }
+    }, [currentPage, router]);
 
     const handleNextPage = () => {
         if (currentPage < totalPages) {
@@ -16,8 +29,6 @@ export default function Pagination({ totalPages }) {
             setCurrentPage(currentPage - 1);
         }
     };
-
-    console.log(totalPages);
 
     return (
         <div className="flex gap-4 p-4">
