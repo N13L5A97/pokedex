@@ -1,31 +1,36 @@
 'use client';
 
-import { useState } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
 
-export default function Filters({ onFilter }) {
+export default function Filters() {
     const types = [
         'fire', 'water', 'grass', 'bug', 'normal', 'electric',
         'ground', 'flying', 'fighting', 'psychic', 'rock', 'poison',
         'ice', 'ghost', 'dragon', 'dark', 'steel', 'fairy'
     ];
 
-    const [selectedTypes, setSelectedTypes] = useState([]);
-
-    const handleTypeChange = (type) => {
-        const updatedTypes = selectedTypes.includes(type)
-            ? selectedTypes.filter((t) => t !== type)
-            : [...selectedTypes, type];
-        setSelectedTypes(updatedTypes);
-        if (onFilter) {
-            onFilter(updatedTypes);
+    
+    function handleTypeChange(type) {
+        // Create a new instance of URLSearchParams based on the existing searchParams
+        const params = new URLSearchParams(typeParams);
+        
+        // Set the search query parameter, or delete it if the query is empty
+        if (type) {
+            params.set('type', type); // Set 'search' query param with the input v
+            params.delete('page')
+        } else {
+            params.delete('type'); // If the input is empty, remove the 'search' param
         }
-    };
-
+        
+        // Update the URL with the new search parameter
+        router.push(`?${params.toString()}`);
+    }
+    
 
     return (
-        <div className="mb-10 flex gap-4 flex-wrap justify-center">
+        <div className="flex flex-wrap justify-center gap-4 mb-10">
             {types.map(type => (
-                <label key={type} className="cursor-pointer text-white font-bold rounded-full border-4 pt-1 pb-1 p-6 border-gray-500 bg-gray-600">
+                <label key={type} className="p-6 pt-1 pb-1 font-bold text-white bg-gray-600 border-4 border-gray-500 rounded-full cursor-pointer">
                     <input
                         className="hidden"
                         type="checkbox"
