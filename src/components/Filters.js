@@ -3,24 +3,36 @@
 import { useRouter, useSearchParams } from 'next/navigation';
 
 export default function Filters() {
+    const router = useRouter();
+    const searchParams = useSearchParams();
+
     const types = [
         'fire', 'water', 'grass', 'bug', 'normal', 'electric',
         'ground', 'flying', 'fighting', 'psychic', 'rock', 'poison',
         'ice', 'ghost', 'dragon', 'dark', 'steel', 'fairy'
     ];
 
-    
+    // Function to handle the type change
     function handleTypeChange(type) {
         // Create a new instance of URLSearchParams based on the existing searchParams
-        const params = new URLSearchParams(typeParams);
-        
-        // Set the search query parameter, or delete it if the query is empty
-        if (type) {
-            params.set('type', type); // Set 'search' query param with the input v
-            params.delete('page')
+        const params = new URLSearchParams(searchParams);
+
+        // Get all the current 'type' parameters as an array
+        let selectedTypes = params.getAll('type');
+
+        if (selectedTypes.includes(type)) {
+            // If the type is already selected, remove it from the array \\ every type that is not the selected type keep into selectedTypes
+            selectedTypes = selectedTypes.filter((t) => t !== type);
         } else {
-            params.delete('type'); // If the input is empty, remove the 'search' param
+            // If the type is not selected, add it to the array
+            selectedTypes.push(type);
         }
+
+        params.delete('type'); // Delete all 'type' query params
+        params.delete('page'); // Delete the 'page' query param
+
+        // Add all the selected types back to the URL
+        selectedTypes.forEach((t) => params.append('type', t));
         
         // Update the URL with the new search parameter
         router.push(`?${params.toString()}`);
