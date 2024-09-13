@@ -16,7 +16,7 @@ export default function PokemonCard(pokemon) {
         pokeIndex = indexInt; 
     }
 
-    console.log(pokemon.url)
+    // console.log(pokemon.url)
 
     // console.log(pokeIndex);
     
