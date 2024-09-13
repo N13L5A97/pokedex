@@ -3,6 +3,7 @@ import getAllPokemon from "@/actions/getAllPokemon";
 
 import Search from "@/components/Search";
 import Filters from "@/components/Filters"
+import Sorting from "@/components/Sorting";
 import PokemonCard from "@/components/PokemonCard";
 import Pagination from "@/components/Pagination";
 
@@ -20,6 +21,9 @@ export default async function Home({ searchParams }) {
     ? [searchParams.type] 
     : [];
 
+  // get sorting query
+  const sortQuery = searchParams.sort || "";
+
   // console.log(searchQuery)
   console.log(typeQuery)
 
@@ -36,8 +40,8 @@ export default async function Home({ searchParams }) {
   let totalResults = 1020;
   let totalPages = Math.ceil(totalResults / 20);
   
- // Check if there's a search query
- if (searchQuery || typeQuery.length > 0) {
+ // Check if there's a query
+ if (searchQuery || typeQuery.length > 0 || sortQuery) {
   // Fetch all Pokémon to filter
   const allPokemon = await getAllPokemon();
 
@@ -48,7 +52,8 @@ export default async function Home({ searchParams }) {
       
       return { 
         ...pokemon,
-        types: details.types.map((typeInfo) => typeInfo.type.name) 
+        types: details.types.map((typeInfo) => typeInfo.type.name),
+        index: details.id,
       };
     })
   );
@@ -69,6 +74,22 @@ export default async function Home({ searchParams }) {
     );
   }
 
+  if (sortQuery) {
+    // Apply sorting
+    filteredPokemon.sort((a, b) => {
+      if (sortQuery === 'name-asc') {
+        return a.name.localeCompare(b.name);
+      } else if (sortQuery === 'name-desc') {
+        return b.name.localeCompare(a.name);
+      } else if (sortQuery === 'index-asc') {
+        return a.index - b.index;
+      } else if (sortQuery === 'index-desc') {
+        return b.index - a.index;
+      }
+      return 0;
+    });
+  }
+
   // Calculate total results and total pages for pagination
   totalResults = filteredPokemon.length;
   totalPages = Math.ceil(totalResults / 20);
@@ -81,6 +102,7 @@ export default async function Home({ searchParams }) {
     <main className="flex flex-col items-center min-h-screen p-24 pt-0">
       <Search />
       <Filters />
+      < Sorting />
       <div className="grid w-full grid-cols-1 gap-4 mt-10 md:grid-cols-4 lg:grid-cols-5">
         {pokemons.map((pokemon) => (
           <PokemonCard key={pokemon.name} name={pokemon.name} url={pokemon.url} />
