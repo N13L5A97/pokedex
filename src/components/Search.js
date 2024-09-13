@@ -19,13 +19,14 @@ export default function Search() {
         }
         
         // Update the URL with the new search parameter
-        router.push(`?${params.toString()}`);
+        // router.push(`?${params.toString()}`);
     }
 
     return (
         <input
             type="search"
             id="search"
+            name="search"
             placeholder="Search for a Pokemon"
             className="w-full p-2 mb-10 text-black rounded-lg"
             onChange={(e) => handleSearch(e.target.value)}

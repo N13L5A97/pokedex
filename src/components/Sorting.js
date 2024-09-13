@@ -17,7 +17,7 @@ export default function SortingOptions() {
         }
         
         // Update the URL with the new search parameter
-        router.push(`?${params.toString()}`);
+        // router.push(`?${params.toString()}`);
     }
 
     return (

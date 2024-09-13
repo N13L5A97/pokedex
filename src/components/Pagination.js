@@ -12,7 +12,7 @@ export default function Pagination({ totalPages, prev, next, currentPage }) {
         if (page > 1) {
             router.push(`?page=${page}`);
         } else {
-            router.push('/');
+            // router.push('/');
         }
     }, [page, router]);
 
