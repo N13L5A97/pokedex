@@ -1,6 +1,6 @@
 export default async function Page({ params }) {
     const pokeData = await fetchDetails(params.name);
-    console.log(pokeData); 
+    // console.log(pokeData); 
 
     return (
         <div className="text-white flex flex-wrap gap-10 p-24">
